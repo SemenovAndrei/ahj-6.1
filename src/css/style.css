@@ -45,6 +45,7 @@ body {
 
 .content {
   margin-bottom: 10px;
+  min-height: 40px;
 }
 
 .card {
@@ -155,5 +156,11 @@ body {
 
 .card:hover .button-card-delete {
   display: block;
+}
+
+.dragged {
+  position: absolute;
+  z-index: 999;
+  pointer-events: none;
 }
 

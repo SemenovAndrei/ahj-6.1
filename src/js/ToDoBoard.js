@@ -19,6 +19,10 @@ export default class ToDoBoard {
 
   addListeners() {
     this.elements.container.addEventListener('click', this.clickLogic.bind(this));
+    this.elements.board.addEventListener('mousedown', this.mousedown.bind(this));
+    this.elements.board.addEventListener('mousemove', this.mousemove.bind(this));
+    this.elements.board.addEventListener('mouseleave', this.mouseleave.bind(this));
+    this.elements.board.addEventListener('mouseup', this.mouseup.bind(this));
   }
 
   clickLogic(e) {
@@ -47,6 +51,59 @@ export default class ToDoBoard {
     }
 
     this.saveCards();
+  }
+
+  mousedown(e) {
+    if (!e.target.closest('.card')) {
+      return;
+    }
+
+    e.preventDefault();
+
+    this.dragEl = e.target.closest('.card');
+    this.ghostEl = e.target.cloneNode(true);
+    this.ghostEl.classList.add('dragged');
+    this.elements.container.appendChild(this.ghostEl);
+    this.ghostEl.style.left = `${e.pageX - this.ghostEl.offsetWidth / 2}px`;
+    this.ghostEl.style.top = `${e.pageY - this.ghostEl.offsetHeight / 2}px`;
+  }
+
+  mousemove(e) {
+    if (!this.dragEl) {
+      return;
+    }
+
+    e.preventDefault();
+
+    this.ghostEl.style.left = `${e.pageX - this.ghostEl.offsetWidth / 2}px`;
+    this.ghostEl.style.top = `${e.pageY - this.ghostEl.offsetHeight / 2}px`;
+  }
+
+  mouseup(e) {
+    if (!this.dragEl) {
+      return;
+    }
+
+    if (e.target.closest('.content')) {
+      const closest = document.elementFromPoint(e.clientX, e.clientY).closest('.card');
+      console.log(this.dragEl);
+      e.target.closest('.content').insertBefore(this.dragEl, closest);
+      this.saveCards();
+    }
+
+    this.elements.container.removeChild(this.ghostEl);
+    this.dragEl = null;
+    this.ghostEl = null;
+  }
+
+  mouseleave() {
+    if (!this.dragEl) {
+      return;
+    }
+
+    this.elements.container.removeChild(this.ghostEl);
+    this.dragEl = null;
+    this.ghostEl = null;
   }
 
   clearStorage() {
@@ -78,7 +135,6 @@ export default class ToDoBoard {
     }
 
     this.allCards = JSON.parse(this.storage.getItem('boardToDo'));
-    console.log(this.allCards);
 
     // eslint-disable-next-line no-restricted-syntax
     for (const [key, value] of Object.entries(this.allCards)) {
