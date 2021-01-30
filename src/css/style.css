@@ -40,10 +40,20 @@ body {
 
 .title {
   margin-bottom: 10px;
+  padding: 0 10px;
 }
 
 .content {
   margin-bottom: 10px;
+}
+
+.card {
+  position: relative;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 4px;
+  text-transform: none;
 }
 
 .hint {
@@ -125,26 +135,15 @@ body {
   background-color: rgb(222, 222, 222);
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: auto;
-    height: auto;
-    color: transparent;
-    background: transparent;
+.button-card-delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: none;
+  align-self: start;
 }
 
-.tickets {
-  margin-top: 20px;
-  font-size: 1.5rem;
-}
-
-.ticket-to,
-.ticket-back {
-  display: flex;
-  justify-content: space-between;
+.card:hover .button-card-delete {
+  display: block;
 }
 

@@ -20,19 +20,19 @@ export default class Board {
    */
   getMarkup() {
     this.board.innerHTML = `
-    <div class="column todo">
+    <div class="column column-todo" data-column='todo'>
       <h2 class="title">todo</h2>
       <div class="content"></div>
       <button class="button button-add">Add another card</button>
       <div class="wrapper-form"></div>
     </div>
-    <div class="column in-progress">
+    <div class="column column-in-progress" data-column='inProgress'>
       <h2 class="title">in progress</h2>
       <div class="content"></div>
       <button class="button button-add">Add another card</button>
       <div class="wrapper-form"></div>
     </div>
-    <div class="column done">
+    <div class="column column-done" data-column='done'>
       <h2 class="title">done</h2>
       <div class="content"></div>
       <button class="button button-add">Add another card</button>

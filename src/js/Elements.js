@@ -48,11 +48,33 @@ export default class Elements {
     });
   }
 
-  showForm(e) {
+  resetView() {
     this.hideForm();
     this.resetButtonsAdd();
+  }
+
+  showForm(e) {
+    this.resetView();
+
     e.style.display = 'none';
     e.nextElementSibling.appendChild(this.form.getForm());
+  }
+
+  addCard(e) {
+    const message = e.closest('.form').querySelector('.form-message').value;
+
+    e.closest('.column').querySelector('.content').appendChild(this.card.getCard(message));
+
+    this.resetView();
+  }
+
+  addAllCards(name, array) {
+    const column = this.board.querySelector(`[data-column=${name}]`);
+    const content = column.querySelector('.content');
+
+    array.forEach((e) => {
+      content.appendChild(this.card.getCard(e));
+    });
   }
 
   /**
