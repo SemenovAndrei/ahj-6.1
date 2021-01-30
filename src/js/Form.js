@@ -30,7 +30,7 @@ export default class Form {
    */
   addFormMarkup() {
     this.form.innerHTML = `
-    <textarea class="form-message" rows='7'></textarea>
+    <textarea class="form-message" rows='5'></textarea>
     <div class="form-controls">
       <button class="button button-form button-form-add">Add Card</button>
       <button class="button button-form button-form-cancel">✗</button>

@@ -9,6 +9,7 @@ export default class Card {
     this.card.innerHTML = `
     <div class="card-content">${message}</div>
     <button class='button button-card-delete'>✗</button>
+    <button class='button button-card-deleteConfirm'>Delete ?</button>
     `;
   }
 

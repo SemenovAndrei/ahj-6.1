@@ -42,8 +42,8 @@ export default class Elements {
   }
 
   resetButtonsAdd() {
-    const wrappersForm = this.container.getElementsByClassName('button-add');
-    wrappersForm.forEach((e) => {
+    const buttons = this.container.getElementsByClassName('button-add');
+    buttons.forEach((e) => {
       e.style.display = 'block';
     });
   }
@@ -75,6 +75,30 @@ export default class Elements {
     array.forEach((e) => {
       content.appendChild(this.card.getCard(e));
     });
+  }
+
+  resetButtonsDelete() {
+    const buttons = this.container.getElementsByClassName('button-card-delete');
+    buttons.forEach((e) => {
+      e.removeAttribute('style');
+    });
+
+    const buttonsConfirm = this.container.getElementsByClassName('button-card-deleteConfirm');
+    buttonsConfirm.forEach((e) => {
+      e.style.display = 'none';
+    });
+  }
+
+  showConfirmDelete(e) {
+    this.resetButtonsDelete();
+
+    e.style.display = 'none';
+    e.nextElementSibling.style.display = 'block';
+  }
+
+  static deleteCard(e) {
+    const content = e.closest('.content');
+    content.removeChild(e.closest('.card'));
   }
 
   /**

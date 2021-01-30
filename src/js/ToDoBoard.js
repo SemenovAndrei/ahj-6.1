@@ -24,18 +24,29 @@ export default class ToDoBoard {
   clickLogic(e) {
     e.preventDefault();
 
+    this.elements.resetButtonsDelete();
+
     if (e.target.classList.contains('button-add')) {
       this.elements.showForm(e.target);
     }
 
     if (e.target.classList.contains('button-form-add')) {
       this.elements.addCard(e.target);
-      this.saveCards();
     }
 
     if (e.target.classList.contains('button-form-cancel')) {
       this.elements.resetView();
     }
+
+    if (e.target.classList.contains('button-card-delete')) {
+      this.elements.showConfirmDelete(e.target);
+    }
+
+    if (e.target.classList.contains('button-card-deleteConfirm')) {
+      this.elements.constructor.deleteCard(e.target);
+    }
+
+    this.saveCards();
   }
 
   clearStorage() {

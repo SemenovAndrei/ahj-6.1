@@ -140,7 +140,17 @@ body {
   top: 0;
   right: 0;
   display: none;
-  align-self: start;
+}
+
+.button-card-deleteConfirm {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: none;
+  background-color: red;
+  color: #ffffff;
+  padding: 5px;
+  border-radius: 4px;
 }
 
 .card:hover .button-card-delete {
