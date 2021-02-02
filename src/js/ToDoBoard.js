@@ -40,6 +40,7 @@ export default class ToDoBoard {
     this.dragEl = null;
     this.testEl = null;
     this.ghostEl = null;
+    this.elements.board.removeAttribute('style');
   }
 
   clickLogic(e) {
@@ -100,7 +101,7 @@ export default class ToDoBoard {
 
     this.saveDragElPosition();
 
-    // this.ghostEl.style.cursor = 'grabbing';
+    this.ghostEl.style.cursor = 'grabbing';
   }
 
   saveDragElPosition() {
@@ -115,6 +116,8 @@ export default class ToDoBoard {
     }
 
     e.preventDefault();
+
+    this.elements.board.style.cursor = 'grabbing';
 
     this.ghostEl.style.left = `${e.pageX - this.ghostEl.offsetWidth / 2}px`;
     this.ghostEl.style.top = `${e.pageY - this.ghostEl.offsetHeight / 2}px`;
