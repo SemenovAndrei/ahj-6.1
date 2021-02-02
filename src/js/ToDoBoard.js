@@ -6,7 +6,7 @@ export default class ToDoBoard {
     this.elements = elements;
     this.storage = localStorage;
     this.allCards = {};
-    this.funcMouseEnter = this.mouseenter.bind(this);
+    this.funcMouseOver = this.mouseOver.bind(this);
   }
 
   /**
@@ -21,10 +21,10 @@ export default class ToDoBoard {
 
   addListeners() {
     this.elements.container.addEventListener('click', this.clickLogic.bind(this));
-    this.elements.board.addEventListener('mousedown', this.mousedown.bind(this));
-    this.elements.board.addEventListener('mousemove', this.mousemove.bind(this));
-    this.elements.board.addEventListener('mouseleave', this.mouseleave.bind(this));
-    this.elements.board.addEventListener('mouseup', this.mouseup.bind(this));
+    this.elements.board.addEventListener('mousedown', this.mouseDown.bind(this));
+    this.elements.board.addEventListener('mousemove', this.mouseMove.bind(this));
+    this.elements.board.addEventListener('mouseleave', this.mouseLeave.bind(this));
+    this.elements.board.addEventListener('mouseup', this.mouseUp.bind(this));
     this.addContentsListener();
   }
 
@@ -32,7 +32,7 @@ export default class ToDoBoard {
     const cards = this.elements.board.querySelectorAll('.content');
 
     cards.forEach((e) => {
-      e.addEventListener('mouseover', this.funcMouseEnter);
+      e.addEventListener('mouseover', this.funcMouseOver);
     });
   }
 
@@ -70,7 +70,7 @@ export default class ToDoBoard {
     this.saveCards();
   }
 
-  mousedown(e) {
+  mouseDown(e) {
     if (!e.target.closest('.card')) {
       return;
     }
@@ -109,7 +109,7 @@ export default class ToDoBoard {
     this.parent.removeChild(this.dragEl);
   }
 
-  mousemove(e) {
+  mouseMove(e) {
     if (!this.dragEl) {
       return;
     }
@@ -120,7 +120,7 @@ export default class ToDoBoard {
     this.ghostEl.style.top = `${e.pageY - this.ghostEl.offsetHeight / 2}px`;
   }
 
-  mouseup(e) {
+  mouseUp(e) {
     if (!this.dragEl) {
       return;
     }
@@ -144,7 +144,7 @@ export default class ToDoBoard {
     this.resetEl();
   }
 
-  mouseleave() {
+  mouseLeave() {
     if (!this.dragEl) {
       return;
     }
@@ -156,7 +156,7 @@ export default class ToDoBoard {
     this.resetEl();
   }
 
-  mouseenter(e) {
+  mouseOver(e) {
     if (!this.ghostEl) {
       return;
     }
