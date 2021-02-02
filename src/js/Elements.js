@@ -58,10 +58,17 @@ export default class Elements {
 
     e.style.display = 'none';
     e.nextElementSibling.appendChild(this.form.getForm());
+    this.board.querySelector('.form-message').focus();
   }
 
   addCard(e) {
     const message = e.closest('.form').querySelector('.form-message').value;
+
+    if (!message.trim()) {
+      this.board.querySelector('.form-message').focus();
+
+      return;
+    }
 
     e.closest('.column').querySelector('.content').appendChild(this.card.getCard(message));
 

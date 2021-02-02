@@ -6,15 +6,17 @@ export default class ToDoBoard {
     this.elements = elements;
     this.storage = localStorage;
     this.allCards = {};
+    this.funcMouseEnter = this.mouseenter.bind(this);
   }
 
   /**
    * init
    */
   init() {
+    this.resetEl();
     this.elements.init();
-    this.addListeners();
     this.loadCards();
+    this.addListeners();
   }
 
   addListeners() {
@@ -23,6 +25,21 @@ export default class ToDoBoard {
     this.elements.board.addEventListener('mousemove', this.mousemove.bind(this));
     this.elements.board.addEventListener('mouseleave', this.mouseleave.bind(this));
     this.elements.board.addEventListener('mouseup', this.mouseup.bind(this));
+    this.addContentsListener();
+  }
+
+  addContentsListener() {
+    const cards = this.elements.board.querySelectorAll('.content');
+
+    cards.forEach((e) => {
+      e.addEventListener('mouseover', this.funcMouseEnter);
+    });
+  }
+
+  resetEl() {
+    this.dragEl = null;
+    this.testEl = null;
+    this.ghostEl = null;
   }
 
   clickLogic(e) {
@@ -58,14 +75,38 @@ export default class ToDoBoard {
       return;
     }
 
+    if (e.target.classList.contains('button-card-delete')) {
+      return;
+    }
+
+    if (e.target.classList.contains('button-card-deleteConfirm')) {
+      return;
+    }
+
     e.preventDefault();
 
     this.dragEl = e.target.closest('.card');
-    this.ghostEl = e.target.cloneNode(true);
+
+    this.testEl = this.dragEl.cloneNode(true);
+    this.testEl.classList.add('test');
+
+    this.ghostEl = this.dragEl.cloneNode(true);
+    this.ghostEl.style.width = `${this.dragEl.offsetWidth}px`;
     this.ghostEl.classList.add('dragged');
+
     this.elements.container.appendChild(this.ghostEl);
-    this.ghostEl.style.left = `${e.pageX - this.ghostEl.offsetWidth / 2}px`;
+    this.ghostEl.style.left = `${e.pageX}px`;
     this.ghostEl.style.top = `${e.pageY - this.ghostEl.offsetHeight / 2}px`;
+
+    this.saveDragElPosition();
+
+    // this.ghostEl.style.cursor = 'grabbing';
+  }
+
+  saveDragElPosition() {
+    this.parent = this.dragEl.closest('.content');
+    this.sibling = this.dragEl.nextElementSibling;
+    this.parent.removeChild(this.dragEl);
   }
 
   mousemove(e) {
@@ -84,16 +125,23 @@ export default class ToDoBoard {
       return;
     }
 
+    if (!this.elements.board.querySelector('.test')) {
+      this.elements.container.removeChild(this.ghostEl);
+      this.resetEl();
+      return;
+    }
+
     if (e.target.closest('.content')) {
-      const closest = document.elementFromPoint(e.clientX, e.clientY).closest('.card');
-      console.log(this.dragEl);
-      e.target.closest('.content').insertBefore(this.dragEl, closest);
+      this.testEl.classList.remove('test');
+
       this.saveCards();
+    } else {
+      this.testEl.closest('.content').removeChild(this.testEl);
+      this.parent.insertBefore(this.dragEl, this.sibling);
     }
 
     this.elements.container.removeChild(this.ghostEl);
-    this.dragEl = null;
-    this.ghostEl = null;
+    this.resetEl();
   }
 
   mouseleave() {
@@ -101,9 +149,34 @@ export default class ToDoBoard {
       return;
     }
 
+    this.testEl.closest('.content').removeChild(this.testEl);
     this.elements.container.removeChild(this.ghostEl);
-    this.dragEl = null;
-    this.ghostEl = null;
+    this.parent.insertBefore(this.dragEl, this.sibling);
+
+    this.resetEl();
+  }
+
+  mouseenter(e) {
+    if (!this.ghostEl) {
+      return;
+    }
+
+    if (!e.target.closest('.content').hasChildNodes()) {
+      e.target.closest('.content').appendChild(this.testEl);
+    }
+
+    const closestEl = e.target.closest('.card');
+
+    if (!closestEl) {
+      return;
+    }
+
+    const { top } = closestEl.getBoundingClientRect();
+    if (e.pageY > window.scrollY + top + closestEl.offsetHeight / 2) {
+      e.target.closest('.content').insertBefore(this.testEl, closestEl.nextElementSibling);
+    } else {
+      e.target.closest('.content').insertBefore(this.testEl, closestEl);
+    }
   }
 
   clearStorage() {

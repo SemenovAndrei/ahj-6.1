@@ -55,6 +55,7 @@ body {
   background-color: #fff;
   border-radius: 4px;
   text-transform: none;
+  box-shadow: 0 1px 0 rgb(9 30 66 / 25%);
 }
 
 .hint {
@@ -141,6 +142,7 @@ body {
   top: 0;
   right: 0;
   display: none;
+  color: inherit;
 }
 
 .button-card-deleteConfirm {
@@ -159,8 +161,18 @@ body {
 }
 
 .dragged {
+  transform: rotate(-3deg);
   position: absolute;
   z-index: 999;
   pointer-events: none;
+}
+
+.dragged:active {
+  cursor: grabbing;
+}
+
+.test {
+  background-color: #b3b3b3;
+  color:  #b3b3b3;
 }
 
