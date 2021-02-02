@@ -92,12 +92,16 @@ export default class ToDoBoard {
     this.testEl.classList.add('test');
 
     this.ghostEl = this.dragEl.cloneNode(true);
-    this.ghostEl.style.width = `${this.dragEl.offsetWidth}px`;
     this.ghostEl.classList.add('dragged');
 
+    const { top, left } = this.dragEl.getBoundingClientRect();
+    this.topDiff = e.pageY - top;
+    this.leftDiff = e.pageX - left;
+
     this.elements.container.appendChild(this.ghostEl);
-    this.ghostEl.style.left = `${e.pageX}px`;
-    this.ghostEl.style.top = `${e.pageY - this.ghostEl.offsetHeight / 2}px`;
+    this.ghostEl.style.left = `${left}px`;
+    this.ghostEl.style.top = `${top}px`;
+    this.ghostEl.style.width = `${this.dragEl.offsetWidth}px`;
 
     this.saveDragElPosition();
 
@@ -119,8 +123,8 @@ export default class ToDoBoard {
 
     this.elements.board.style.cursor = 'grabbing';
 
-    this.ghostEl.style.left = `${e.pageX - this.ghostEl.offsetWidth / 2}px`;
-    this.ghostEl.style.top = `${e.pageY - this.ghostEl.offsetHeight / 2}px`;
+    this.ghostEl.style.left = `${e.pageX - this.leftDiff}px`;
+    this.ghostEl.style.top = `${e.pageY - this.topDiff}px`;
   }
 
   mouseUp(e) {
