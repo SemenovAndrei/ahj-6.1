@@ -19,6 +19,9 @@ export default class ToDoBoard {
     this.addListeners();
   }
 
+  /**
+   * Add Listeners
+   */
   addListeners() {
     this.elements.container.addEventListener('click', this.clickLogic.bind(this));
     this.elements.board.addEventListener('mousedown', this.mouseDown.bind(this));
@@ -28,6 +31,9 @@ export default class ToDoBoard {
     this.addContentsListener();
   }
 
+  /**
+   * Add listeners to content elements
+   */
   addContentsListener() {
     const cards = this.elements.board.querySelectorAll('.content');
 
@@ -36,6 +42,9 @@ export default class ToDoBoard {
     });
   }
 
+  /**
+   * Reset drag elements
+   */
   resetEl() {
     this.dragEl = null;
     this.testEl = null;
@@ -43,6 +52,11 @@ export default class ToDoBoard {
     this.elements.board.removeAttribute('style');
   }
 
+  /**
+   * Handler mouse click
+   *
+   * @param {event} e - Click event
+   */
   clickLogic(e) {
     e.preventDefault();
 
@@ -71,6 +85,11 @@ export default class ToDoBoard {
     this.saveCards();
   }
 
+  /**
+   * Handler mouseDown
+   *
+   * @param {event} e - Event mouseDown
+   */
   mouseDown(e) {
     if (!e.target.closest('.card')) {
       return;
@@ -108,12 +127,20 @@ export default class ToDoBoard {
     this.ghostEl.style.cursor = 'grabbing';
   }
 
+  /**
+   * Save this.dragEl position
+   */
   saveDragElPosition() {
     this.parent = this.dragEl.closest('.content');
     this.sibling = this.dragEl.nextElementSibling;
     this.parent.removeChild(this.dragEl);
   }
 
+  /**
+   * Handler mouseMove
+   *
+   * @param {event} e - Event mouseMove
+   */
   mouseMove(e) {
     if (!this.dragEl) {
       return;
@@ -127,6 +154,11 @@ export default class ToDoBoard {
     this.ghostEl.style.top = `${e.pageY - this.topDiff}px`;
   }
 
+  /**
+   * Handler mouseUp
+   *
+   * @param {event} e - Event mouseUp
+   */
   mouseUp(e) {
     if (!this.dragEl) {
       return;
@@ -151,6 +183,11 @@ export default class ToDoBoard {
     this.resetEl();
   }
 
+  /**
+   * Handler mouseLeave
+   *
+   * @param {event} e - Event mouseLeave
+   */
   mouseLeave() {
     if (!this.dragEl) {
       return;
@@ -163,6 +200,11 @@ export default class ToDoBoard {
     this.resetEl();
   }
 
+  /**
+   * Handler mouseOver
+   *
+   * @param {event} e - Event mouseOver
+   */
   mouseOver(e) {
     if (!this.ghostEl) {
       return;
@@ -186,10 +228,16 @@ export default class ToDoBoard {
     }
   }
 
+  /**
+   * Clear storage
+   */
   clearStorage() {
     this.storage.removeItem('boardToDo');
   }
 
+  /**
+   * Save cards to localStorage
+   */
   saveCards() {
     const columns = this.elements.board.getElementsByClassName('column');
     columns.forEach((e) => {
@@ -209,6 +257,9 @@ export default class ToDoBoard {
     this.storage.setItem('boardToDo', JSON.stringify(this.allCards));
   }
 
+  /**
+   * Load cards from localStorage
+   */
   loadCards() {
     if (!this.storage.getItem('boardToDo')) {
       return;

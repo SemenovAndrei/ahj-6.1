@@ -34,6 +34,9 @@ export default class Elements {
     this.container.classList.add('container');
   }
 
+  /**
+   * Hide form
+   */
   hideForm() {
     const wrappersForm = this.container.getElementsByClassName('wrapper-form');
     wrappersForm.forEach((e) => {
@@ -41,6 +44,9 @@ export default class Elements {
     });
   }
 
+  /**
+   * Reset buttons add card
+   */
   resetButtonsAdd() {
     const buttons = this.container.getElementsByClassName('button-add');
     buttons.forEach((e) => {
@@ -48,11 +54,19 @@ export default class Elements {
     });
   }
 
+  /**
+   * Functions hideForm & resetButtonsAdd
+   */
   resetView() {
     this.hideForm();
     this.resetButtonsAdd();
   }
 
+  /**
+   * Show form on page
+   *
+   * @param {element} e - element to show
+   */
   showForm(e) {
     this.resetView();
 
@@ -61,6 +75,11 @@ export default class Elements {
     this.board.querySelector('.form-message').focus();
   }
 
+  /**
+   * Add card to page
+   *
+   * @param {element} e - element to addCard
+   */
   addCard(e) {
     const message = e.closest('.form').querySelector('.form-message').value;
 
@@ -75,6 +94,12 @@ export default class Elements {
     this.resetView();
   }
 
+  /**
+   * Add all saved cards to page
+   *
+   * @param {string} name - column name
+   * @param {array} array - array cards
+   */
   addAllCards(name, array) {
     const column = this.board.querySelector(`[data-column=${name}]`);
     const content = column.querySelector('.content');
@@ -84,6 +109,9 @@ export default class Elements {
     });
   }
 
+  /**
+   * Reset buttons delete
+   */
   resetButtonsDelete() {
     const buttons = this.container.getElementsByClassName('button-card-delete');
     buttons.forEach((e) => {
@@ -96,6 +124,11 @@ export default class Elements {
     });
   }
 
+  /**
+   * Show confirm delete
+   *
+   * @param {element} e - element button confirm delete
+   */
   showConfirmDelete(e) {
     this.resetButtonsDelete();
 
@@ -103,6 +136,11 @@ export default class Elements {
     e.nextElementSibling.style.display = 'block';
   }
 
+  /**
+   * Delete card from page
+   *
+   * @param {element} e - element to delete
+   */
   static deleteCard(e) {
     const content = e.closest('.content');
     content.removeChild(e.closest('.card'));
